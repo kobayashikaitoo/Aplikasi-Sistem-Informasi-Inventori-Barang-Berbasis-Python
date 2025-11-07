@@ -2,9 +2,9 @@
 
 **Tugas Proyek Akhir Sistem Informasi Berbasis Desktop**
 
-Nama: [Nama Anda]  
-NIM: [NIM Anda]  
-Kelas: [Kelas Anda]
+Nama: Friederik Ferdinand & Ibren Holysa Yalloken Ginting
+NIM: 240211060035 & 240211060040
+Kelas: B
 
 ---
 
