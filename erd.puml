@@ -1,0 +1,58 @@
+@startuml EntityRelationshipDiagram
+
+' Definisi Gaya (Opsional: agar terlihat lebih bersih)
+hide circle
+skinparam linetype ortho
+
+' ENTITAS
+entity users {
+  * id : INTEGER <<PK>>
+  --
+  username : TEXT
+  password : TEXT
+  level : TEXT
+}
+
+entity categories {
+  * id : INTEGER <<PK>>
+  --
+  name : TEXT
+}
+
+entity suppliers {
+  * id : INTEGER <<PK>>
+  --
+  supplier_name : TEXT
+  address : TEXT
+}
+
+entity items {
+  * id : INTEGER <<PK>>
+  --
+  item_code : TEXT
+  item_name : TEXT
+  stock : INTEGER
+  purchase_price : REAL
+  selling_price : REAL
+  --
+  category_id : INTEGER <<FK>>
+  supplier_id : INTEGER <<FK>>
+}
+
+entity transactions {
+  * id : INTEGER <<PK>>
+  --
+  transaction_date : TEXT
+  quantity : INTEGER
+  transaction_type : TEXT
+  notes : TEXT
+  --
+  item_id : INTEGER <<FK>>
+}
+
+' RELASI (Kardinalitas 1 ke Banyak: 1--* atau 1--n)
+categories ||--o{ items : category_id
+suppliers ||--o{ items : supplier_id
+items ||--o{ transactions : item_id
+
+@enduml
