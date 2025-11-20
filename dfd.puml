@@ -1,0 +1,103 @@
+@startuml DFD_Level_1_Rapi
+
+' === PENGATURAN TAMPILAN (Sama dengan Level 0) ===
+skinparam backgroundColor #FEFEFE
+skinparam linetype ortho
+skinparam nodesep 60   ' Jarak horizontal antar elemen
+skinparam ranksep 50   ' Jarak vertikal antar baris
+skinparam actorStyle awesome
+skinparam arrowThickness 1.5
+
+' --- Definisi Gaya ---
+skinparam rectangle {
+    RoundCorner 25
+    BackgroundColor #D9E9FF
+    BorderColor #2F69A8
+    FontSize 13
+}
+skinparam database {
+    BackgroundColor #FFFFAA
+    BorderColor #A8902F
+}
+
+' === 1. ENTITAS LUAR ===
+actor "Admin" as Admin
+actor "User\n(Staf)" as User
+actor "Reports\n(PDF/Excel)" as Reports
+
+' === 2. PROSES (CONTROLLERS) ===
+' Kelompokkan proses agar sejajar rapi
+together {
+    rectangle "1.0\nLogin & Auth" as P1
+    rectangle "2.0\nKelola Barang" as P2
+    rectangle "3.0\nKelola Pemasok" as P3
+}
+
+together {
+    rectangle "4.0\nCatat Transaksi" as P4
+    rectangle "5.0\nDashboard" as P5
+    rectangle "6.0\nGenerate Laporan" as P6
+}
+
+' === 3. DATA STORE (DATABASE) ===
+' Kelompokkan data store berdasarkan penggunaan
+together {
+    database "D1 Users" as D1
+    database "D2 Categories" as D2
+    database "D3 Suppliers" as D3
+}
+
+together {
+    database "D4 Items" as D4
+    database "D5 Transactions" as D5
+}
+
+' === PENATAAN LAYOUT (HIDDEN ARROWS) ===
+' Mengatur posisi vertikal agar tidak numpuk
+Admin -[hidden]down-> P1
+P1 -[hidden]down-> P4
+P4 -[hidden]down-> D1
+D1 -[hidden]down-> D4
+
+' === ALUR DATA (FLOWS) ===
+
+' -- 1. Proses Login --
+Admin -right-> P1 : Login
+User -right-> P1 : Login
+P1 -down-> D1 : Validasi User
+D1 -up-> P1 : Data User
+P1 -left-> Admin : Hasil Auth
+P1 -left-> User : Hasil Auth
+
+' -- 2. Proses Kelola Barang (Admin) --
+Admin -down-> P2 : Input Barang
+P2 -down-> D4 : CRUD Data Barang
+P2 -down-> D2 : Ambil Kategori
+P2 -down-> D3 : Ambil Pemasok
+P2 -up-> Admin : Konfirmasi
+
+' -- 3. Proses Kelola Pemasok (Admin) --
+Admin -down-> P3 : Input Pemasok
+P3 -down-> D3 : CRUD Pemasok
+P3 -up-> Admin : Konfirmasi
+
+' -- 4. Proses Transaksi (User) --
+User -down-> P4 : Input Transaksi
+' Poin Penting: Update Stok (D4) DAN Simpan Riwayat (D5)
+P4 -down-> D5 : Simpan Riwayat
+P4 -down-> D4 : Update Stok Barang
+P4 -up-> User : Bukti Transaksi
+
+' -- 5. Proses Dashboard (View Only) --
+User -down-> P5 : Request Info
+P5 -down-> D4 : Cek Stok Limit
+P5 -down-> D5 : Cek Transaksi Terakhir
+P5 -up-> User : Tampil Dashboard
+
+' -- 6. Proses Laporan (Admin) --
+Admin -right-> P6 : Request Laporan
+P6 -down-> D4 : Baca Semua Barang
+P6 -down-> D5 : Baca Riwayat
+P6 -right-> Reports : File Laporan
+
+@enduml

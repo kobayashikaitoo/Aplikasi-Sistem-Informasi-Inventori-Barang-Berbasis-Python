@@ -10,7 +10,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from utils.formatters import format_currency
 
-
 class MainView(tk.Frame):
     def __init__(
         self,
@@ -509,11 +508,15 @@ class MainView(tk.Frame):
         destination = filedialog.asksaveasfilename(
             defaultextension=".pdf",
             filetypes=[("PDF", "*.pdf")],
-            title="Simpan Laporan PDF",
+            title="Simpan Laporan Lengkap PDF",
         )
         if not destination:
             return
-        success, message = self.report_controller.export_pdf(self.item_controller.list_items(), destination)
+        success, message = self.report_controller.export_pdf(
+            self.item_controller.list_items(),
+            self.item_controller.get_all_transactions(),
+            destination
+        )
         if success:
             messagebox.showinfo("Sukses", message)
         else:
@@ -523,15 +526,20 @@ class MainView(tk.Frame):
         destination = filedialog.asksaveasfilename(
             defaultextension=".xlsx",
             filetypes=[("Excel", "*.xlsx")],
-            title="Simpan Laporan Excel",
+            title="Simpan Laporan Lengkap Excel",
         )
         if not destination:
             return
-        success, message = self.report_controller.export_excel(self.item_controller.list_items(), destination)
+        success, message = self.report_controller.export_excel(
+            self.item_controller.list_items(),
+            self.item_controller.get_all_transactions(),
+            destination
+        )
         if success:
             messagebox.showinfo("Sukses", message)
         else:
             messagebox.showerror("Gagal", message)
+
 
     def save_supplier(self) -> None:
         payload = {

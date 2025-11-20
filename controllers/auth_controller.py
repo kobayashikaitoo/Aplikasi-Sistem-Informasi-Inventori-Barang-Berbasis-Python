@@ -6,7 +6,6 @@ from typing import Optional
 
 from utils.validators import validate_required_fields
 
-
 class AuthController:
     def __init__(self, user_model: "UserModel") -> None:
         self.user_model = user_model

@@ -7,7 +7,6 @@ from typing import Dict, List, Tuple
 
 from utils.validators import validate_required_fields
 
-
 class ItemController:
     def __init__(self, item_model: "ItemModel", transaction_model: "TransactionModel") -> None:
         self.item_model = item_model

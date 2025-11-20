@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Dict
 
-
 class DashboardController:
     def __init__(self, item_model: "ItemModel", transaction_model: "TransactionModel") -> None:
         self.item_model = item_model

@@ -89,4 +89,3 @@ INSERT INTO transactions (transaction_date, item_id, quantity, transaction_type,
 ('2025-11-05', 8, 5, 'OUT', 'Penjualan toko'),
 ('2025-11-05', 9, 8, 'IN', 'Restock toko'),
 ('2025-11-06', 10, 6, 'OUT', 'Penjualan grosir');
-

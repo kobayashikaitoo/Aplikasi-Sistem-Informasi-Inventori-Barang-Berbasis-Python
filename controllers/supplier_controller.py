@@ -6,7 +6,6 @@ from typing import Dict, List, Tuple
 
 from utils.validators import validate_required_fields
 
-
 class SupplierController:
     def __init__(self, supplier_model: "SupplierModel") -> None:
         self.supplier_model = supplier_model

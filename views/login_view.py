@@ -3,7 +3,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-
 class LoginView(tk.Frame):
     def __init__(self, master: tk.Tk, auth_controller: "AuthController", on_success) -> None:
         super().__init__(master)
